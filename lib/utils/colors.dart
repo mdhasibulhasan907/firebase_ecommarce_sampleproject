@@ -8,4 +8,6 @@ class AllColors{
     Color monitorLgpriceColor=Color(0xff393F42);
     Color monitorLgTitleColor=Color(0xff393F42);
 
+    Color primarycolor=Color(0xff67C4A7);
+
 }

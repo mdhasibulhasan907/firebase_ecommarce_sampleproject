@@ -1,3 +1,4 @@
+import 'package:firebase_ecommerce/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -6,7 +7,7 @@ class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
-
+int _selectedIndex = 0;
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,66 @@ class _HomeScreenState extends State<HomeScreen> {
               borderRadius: BorderRadius.circular(8), // কোণ গুলো গোল করতে চাইলে
             ),
             child: Row(children: [Icon(Icons.search), Text("search here")]),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(18.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Recent product",
+                  style: TextStyle(fontSize: 14, color: Color(0xff393F42)),
+                ),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade300),
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text('Filters', style: TextStyle(color: Colors.black)),
+                      SizedBox(width: 6),
+                      Icon(
+                        Icons.filter_alt_outlined,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 10,),
+          
+
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white, // Background color of bar
+        selectedItemColor: AllColors().primarycolor, // Selected icon & label color
+        unselectedItemColor: Colors.grey, // Unselected icon color
+        currentIndex: _selectedIndex, // Add this in a StatefulWidget
+        showUnselectedLabels: true,
+        onTap: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            label: "Wishlist",
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: "History"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: "Account",
           ),
         ],
       ),

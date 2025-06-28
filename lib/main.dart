@@ -1,4 +1,6 @@
 import 'package:firebase_ecommerce/screens/home_screen.dart';
+import 'package:firebase_ecommerce/screens/login_screen.dart';
+import 'package:firebase_ecommerce/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -14,7 +16,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Firebase Ecommerce',
        debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: SignupScreen(),
+      //HomeScreen(),
     );
   }
 }
