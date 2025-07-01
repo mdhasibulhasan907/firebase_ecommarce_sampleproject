@@ -1,36 +1,34 @@
 import 'package:firebase_ecommerce/provider/auth_provider.dart';
-import 'package:firebase_ecommerce/screens/login_screen.dart';
 import 'package:firebase_ecommerce/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({super.key});
+class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({super.key});
 
   @override
-  State<SignupScreen> createState() => _SignupScreenState();
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
 }
 
+class _EditProfileScreenState extends State<EditProfileScreen> {
 
-//final authProvider = Provider.of<AuthProvider>(context); 
-
-class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
-    //AuthProvider authProvider = AuthProvider();
     final authProvider = Provider.of<AuthProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AllColors().primarycolor,
         title: Text(
-          "Signup",
+          "Edit Profile",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
         centerTitle: true,
       ),
       body: Column(
         children: [
-          SizedBox(height: 70.0),
+          SizedBox(height: 10,),
+          Text("You can make any single or all changes",style: TextStyle(fontSize: 20),),
+          SizedBox(height: 10.0),
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: TextField(
@@ -54,19 +52,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
             ),
           ),
-          SizedBox(height: 20.0),
-
-          Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: TextField(
-              controller: authProvider.passController,
-              obscureText: true,
-              decoration: InputDecoration(
-                hintText: "Enter your password",
-                border: OutlineInputBorder(),
-              ),
-            ),
-          ),
+          
           SizedBox(height: 20.0),
 
           Padding(
@@ -126,7 +112,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
           ElevatedButton(
             onPressed: () {
-              authProvider.SignupUser(context);
+              authProvider.updateuserProfile(context);
             },
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: 10, horizontal: 100),
@@ -136,7 +122,7 @@ class _SignupScreenState extends State<SignupScreen> {
               //shape:
             ),
 
-            child: Text("Signup", style: TextStyle(color: Colors.white)),
+            child: Text("Submit", style: TextStyle(color: Colors.white)),
           ),
           SizedBox(height: 20),
         ],

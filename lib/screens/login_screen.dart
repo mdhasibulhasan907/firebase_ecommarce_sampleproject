@@ -1,3 +1,8 @@
+
+
+import 'package:firebase_ecommerce/provider/auth_provider.dart';
+import 'package:firebase_ecommerce/screens/forgetpasswprd_screen.dart';
+import 'package:firebase_ecommerce/screens/signup_screen.dart';
 import 'package:firebase_ecommerce/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  AuthProvider authProvider = AuthProvider();
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -28,11 +34,13 @@ class _LoginScreenState extends State<LoginScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: TextField(
-              //controller: ,
+              controller: authProvider.emailController ,
               decoration: InputDecoration(
                 hintText: "Enter your email",
                 border: OutlineInputBorder(),
+               
               ),
+              
             ),
           ),
           SizedBox(height: 20.0),
@@ -40,19 +48,39 @@ class _LoginScreenState extends State<LoginScreen> {
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15),
             child: TextField(
-              //controller: ,
+              controller:authProvider.passController,
+              obscureText: true,
               decoration: InputDecoration(
                 hintText: "Enter your password",
                 border: OutlineInputBorder(),
+                 suffixIcon: Icon(Icons.visibility), 
               ),
             ),
           ),
-          SizedBox(height: 20.0),
+          SizedBox(height: 5.0),
+         
+          Padding(
+            padding: const EdgeInsets.only(right: 218),
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ForgetpasswprdScreen()),
+                );
+              },
+              child: Text("forget pass?click here",style: TextStyle(
+                color: Colors.blueAccent
+              ),),
+            ),
+          ),
+          SizedBox(height: 20,),
 
         
 
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+             authProvider.Login(context);
+            },
             style: ElevatedButton.styleFrom(
               padding: EdgeInsets.symmetric(vertical: 10,horizontal: 100),
               backgroundColor: AllColors().primarycolor,
@@ -62,6 +90,18 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             
             child: Text("Login",style: TextStyle(color: Colors.white),),
+          ),
+          SizedBox(height: 5,),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SignupScreen()),
+              );
+            },
+            child: Text("no account?signup here",style: TextStyle(
+                color: Colors.blueAccent
+              ),),
           ),
         ],
       ),
