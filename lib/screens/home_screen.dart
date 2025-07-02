@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ecommerce/screens/cart_screen.dart';
-import 'package:firebase_ecommerce/screens/profile_screen.dart';
+import 'package:firebase_ecommerce/screens/navbar/profile_screen.dart';
 import 'package:firebase_ecommerce/utils/colors.dart';
 import 'package:firebase_ecommerce/utils/sizes.dart';
 
@@ -58,80 +58,63 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              Expanded(
-                child: Align(
-                    alignment: Alignment.centerRight,
-                  child: SingleChildScrollView(
-                    
-                    child: Row(
-                      children: [
-                        StreamBuilder(
-                          stream: FirebaseFirestore.instance
-                              .collection("cart")
-                              .doc(FirebaseAuth.instance.currentUser!.uid)
-                              .collection("items")
-                              .snapshots(),
-                    
-                          builder: (context, snapshots) {
-                            num totalQuantity = 0;
-                            if (snapshots.hasData) {
-                              for (var doc in snapshots.data!.docs) {
-                                totalQuantity += (doc["quantity"] ?? 1);
-                              }
-                            }
-                            return Stack(
-                              children: [
-                                IconButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (_) => CartScreen()),
-                                    );
-                                  },
-                                  icon: Icon(Icons.shopping_cart),
+              SizedBox(width: 12,),
+              Row(
+                children: [
+                  StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("cart")
+                        .doc(FirebaseAuth.instance.currentUser!.uid)
+                        .collection("items")
+                        .snapshots(),
+
+                    builder: (context, snapshots) {
+                      num totalQuantity = 0;
+                      if (snapshots.hasData) {
+                        for (var doc in snapshots.data!.docs) {
+                          totalQuantity += (doc["quantity"] ?? 1);
+                        }
+                      }
+                      return Stack(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (_) => CartScreen()),
+                              );
+                            },
+                            icon: Icon(Icons.shopping_cart),
+                          ),
+
+                          if (totalQuantity > 0)
+                            Positioned(
+                              right: 6,
+                              top: 6,
+                              child: Text(
+                                "${totalQuantity}",
+                                style: TextStyle(
+                                  color: const Color.fromARGB(255, 248, 1, 1),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                    
-                                if (totalQuantity > 0)
-                                  Positioned(
-                                    right: 6,
-                                    top: 6,
-                                    child: Text(
-                                      "${totalQuantity}",
-                                      style: TextStyle(
-                                        color: const Color.fromARGB(255, 248, 1, 1),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                              ],
-                            );
-                          },
-                        ),
-                        SizedBox(width: 10.0),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => ProfileScreen()),
-                            );
-                          },
-                          icon: Icon(Icons.person_2),
-                          
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Provider.of<AuthProvider>(
-                              context,
-                              listen: false,
-                            ).LogOut(context);
-                          },
-                          icon: Icon(Icons.logout),
-                        ),
-                      ],
-                    ),
+                              ),
+                            ),
+                        ],
+                      );
+                    },
                   ),
-                ),
+
+                  IconButton(
+                    onPressed: () {
+                      Provider.of<AuthProvider>(
+                        context,
+                        listen: false,
+                      ).LogOut(context);
+                    },
+                    icon: Icon(Icons.logout),
+                  ),
+                ],
               ),
             ],
           ),
@@ -282,7 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       cartRef.set({
                                         "id": data.id,
                                         "imageUrl": data.imageUrl,
-                                        "title":data.title,
+                                        "title": data.title,
                                         "price": data.price,
                                         "quantity": 1,
                                       });
@@ -328,30 +311,30 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        selectedItemColor: AllColors().primarycolor,
-        unselectedItemColor: Colors.grey,
-        currentIndex: _selectedIndex,
-        showUnselectedLabels: true,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_border),
-            label: "Wishlist",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: "History"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: "Account",
-          ),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: Colors.white,
+      //   selectedItemColor: AllColors().primarycolor,
+      //   unselectedItemColor: Colors.grey,
+      //   currentIndex: _selectedIndex,
+      //   showUnselectedLabels: true,
+      //   onTap: (index) {
+      //     setState(() {
+      //       _selectedIndex = index;
+      //     });
+      //   },
+      //   items: [
+      //     BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.favorite_border),
+      //       label: "Wishlist",
+      //     ),
+      //     BottomNavigationBarItem(icon: Icon(Icons.history), label: "History"),
+      //     BottomNavigationBarItem(
+      //       icon: Icon(Icons.account_circle),
+      //       label: "Account",
+      //     ),
+      //   ],
+      // ),
     );
   }
 }

@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart'as fb_auth;
 
 import 'package:firebase_ecommerce/provider/auth_provider.dart';
+import 'package:firebase_ecommerce/provider/order_provider.dart';
 import 'package:firebase_ecommerce/provider/product_provider.dart';
 
 import 'package:firebase_ecommerce/screens/home_screen.dart';
 import 'package:firebase_ecommerce/screens/login_screen.dart';
+import 'package:firebase_ecommerce/screens/navbar/nav_bar.dart';
 
 
 
@@ -46,7 +48,7 @@ class _MyAppState extends State<MyApp> {
     fb_auth.User? user =  fb_auth.FirebaseAuth.instance.currentUser;
 
     setState(() {
-      startScreen = user != null ? HomeScreen() : LoginScreen();
+      startScreen = user != null ? NavBar() : LoginScreen();
       checking = true;
     });
   }
@@ -57,7 +59,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => AuthProvider()),
         ChangeNotifierProvider(
           create: (context) => ProductProvider(),
-        ), // ChangeNotifierProvider
+        ),
+         ChangeNotifierProvider(create: (_) => OrderProvider()), 
+        // ChangeNotifierProvider
         // ChangeNotifierProvider
 
         // Add other providers here if needed

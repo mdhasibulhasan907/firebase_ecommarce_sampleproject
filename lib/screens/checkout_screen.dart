@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ecommerce/screens/home_screen.dart';
+import 'package:firebase_ecommerce/screens/navbar/nav_bar.dart';
 import 'package:firebase_ecommerce/utils/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +50,7 @@ void placeOrder(BuildContext context) async {
   }
   Navigator.push(
     context,
-     MaterialPageRoute(builder: (_)=>HomeScreen())
+     MaterialPageRoute(builder: (_)=>NavBar() )
      );
 }
 
@@ -92,6 +93,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: TextField(
               controller: deliveryAddressController,
+              obscureText: true,
               decoration: InputDecoration(
                 hint: Text("Enter Your Delivery Address"),
                 border: OutlineInputBorder(
