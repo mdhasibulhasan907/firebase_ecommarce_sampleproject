@@ -16,60 +16,95 @@ class _HistoryState extends State<History> {
     Provider.of<OrderProvider>(context, listen: false).fatchOrder();
   }
 
+  //total amount 
+  double calculateTotalAmount(List<dynamic> items) {
+  double total = 0;
+  for (var item in items) {
+    double price = double.tryParse(item['price'].toString()) ?? 0;
+    int quantity = item['quantity'] ?? 1;
+    total += price * quantity;
+  }
+  return total;
+}
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Histery'),
+        title: const Text('History'),
         backgroundColor: Colors.white.withOpacity(0.7),
-        //AllColors().primarycolor,
       ),
       body: Consumer<OrderProvider>(
         builder: (context, controller, child) {
           if (controller.orderItems.isEmpty) {
-            return Center(child: Text("No orders found"));
+            return const Center(child: Text("No orders found"));
           }
           return ListView.builder(
             itemCount: controller.orderItems.length,
             itemBuilder: (context, index) {
               final order = controller.orderItems[index];
-              return SingleChildScrollView(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ListTile(title: Text("Order ID: ${order['id']}")),
-                    ListTile(
-                      title: Text("Delivery Address: ${order['dAddress']}"),
-                    ),
-                    ListTile(title: Text("Email: ${order['email']}")),
-                    ListTile(title: Text("Status: ${order['status']}")),
-                    SizedBox(height: 10),
-                    Text(
-                      "Ordered Items:",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+              final items = order['item'];
+              final totalAmount = calculateTotalAmount(items); //Total
 
-                    // For loop দিয়ে item গুলো দেখানো হচ্ছে
-                    for (var item in order['item'])
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 4,
+              return SingleChildScrollView(
+                child: Card(
+                  elevation: 3,
+                  margin: const EdgeInsets.all(10),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ListTile(title: Text("Order ID: ${order['id']}")),
+                        ListTile(
+                          title:
+                              Text("Delivery Address: ${order['dAddress']}"),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Title: ${item['title']}"),
-                            Text("Price: \$${item['price']}"),
-                            Text("Quantity: ${item['quantity']}"),
-                            Text("ID: ${item['id']}"),
-                            Divider(), // প্রতিটি পণ্যের শেষে লাইন
-                          ],
+                        ListTile(title: Text("Email: ${order['email']}")),
+                        ListTile(title: Text("Status: ${order['status']}")),
+                        const SizedBox(height: 10),
+                        const Text(
+                          "Ordered Items:",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                  ],
+
+                        // 🛒 Ordered items loop
+                        for (var item in items)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 4,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Title: ${item['title']}"),
+                                Text("Price: \$${item['price']}"),
+                                Text("Quantity: ${item['quantity']}"),
+                                Text("ID: ${item['id']}"),
+                                const Divider(),
+                              ],
+                            ),
+                          ),
+
+                        // 🧾 Show Total
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Total Amount: \$${totalAmount.toStringAsFixed(2)}",
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.green,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               );
             },
