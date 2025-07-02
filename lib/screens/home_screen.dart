@@ -58,71 +58,80 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection("cart")
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .collection("items")
-                        .snapshots(),
-
-                    builder: (context, snapshots) {
-                      num totalQuantity = 0;
-                      if (snapshots.hasData) {
-                        for (var doc in snapshots.data!.docs) {
-                          totalQuantity += (doc["quantity"] ?? 1);
-                        }
-                      }
-                      return Stack(
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (_) => CartScreen()),
-                              );
-                            },
-                            icon: Icon(Icons.shopping_cart),
-                          ),
-
-                          if (totalQuantity > 0)
-                            Positioned(
-                              right: 6,
-                              top: 6,
-                              child: Text(
-                                "${totalQuantity}",
-                                style: TextStyle(
-                                  color: const Color.fromARGB(255, 248, 1, 1),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+              Expanded(
+                child: Align(
+                    alignment: Alignment.centerRight,
+                  child: SingleChildScrollView(
+                    
+                    child: Row(
+                      children: [
+                        StreamBuilder(
+                          stream: FirebaseFirestore.instance
+                              .collection("cart")
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .collection("items")
+                              .snapshots(),
+                    
+                          builder: (context, snapshots) {
+                            num totalQuantity = 0;
+                            if (snapshots.hasData) {
+                              for (var doc in snapshots.data!.docs) {
+                                totalQuantity += (doc["quantity"] ?? 1);
+                              }
+                            }
+                            return Stack(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (_) => CartScreen()),
+                                    );
+                                  },
+                                  icon: Icon(Icons.shopping_cart),
                                 ),
-                              ),
-                            ),
-                        ],
-                      );
-                    },
+                    
+                                if (totalQuantity > 0)
+                                  Positioned(
+                                    right: 6,
+                                    top: 6,
+                                    child: Text(
+                                      "${totalQuantity}",
+                                      style: TextStyle(
+                                        color: const Color.fromARGB(255, 248, 1, 1),
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            );
+                          },
+                        ),
+                        SizedBox(width: 10.0),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => ProfileScreen()),
+                            );
+                          },
+                          icon: Icon(Icons.person_2),
+                          
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Provider.of<AuthProvider>(
+                              context,
+                              listen: false,
+                            ).LogOut(context);
+                          },
+                          icon: Icon(Icons.logout),
+                        ),
+                      ],
+                    ),
                   ),
-                  SizedBox(width: 10.0),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => ProfileScreen()),
-                      );
-                    },
-                    icon: Icon(Icons.person_2),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Provider.of<AuthProvider>(
-                        context,
-                        listen: false,
-                      ).LogOut(context);
-                    },
-                    icon: Icon(Icons.logout),
-                  ),
-                ],
+                ),
               ),
             ],
           ),
