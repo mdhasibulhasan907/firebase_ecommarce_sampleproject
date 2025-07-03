@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_ecommerce/screens/cart_screen.dart';
-import 'package:firebase_ecommerce/screens/navbar/profile_screen.dart';
+
 import 'package:firebase_ecommerce/utils/colors.dart';
 import 'package:firebase_ecommerce/utils/sizes.dart';
 
 import 'package:firebase_auth/firebase_auth.dart' hide AuthProvider;
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';

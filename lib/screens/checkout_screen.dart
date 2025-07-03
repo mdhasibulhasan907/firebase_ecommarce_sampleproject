@@ -93,7 +93,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: TextField(
               controller: deliveryAddressController,
-              obscureText: true,
+             
               decoration: InputDecoration(
                 hint: Text("Enter Your Delivery Address"),
                 border: OutlineInputBorder(
